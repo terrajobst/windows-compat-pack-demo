@@ -1,7 +1,4 @@
-﻿using System;
-using System.Management;
-
-namespace ConsoleApp_NetFx
+﻿namespace ConsoleApp_NetFx
 {
     class Program
     {

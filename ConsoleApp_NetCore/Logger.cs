@@ -59,11 +59,16 @@ namespace ConsoleApp_NetFx
 
         private static string GetLoggingPath()
         {
-            using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Fabrikam\AssetManagement"))
+            #pragma warning disable PC001
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (key?.GetValue("LoggingDirectoryPath") is string configuredPath)
-                    return configuredPath;
+                using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Fabrikam\AssetManagement"))
+                {
+                    if (key?.GetValue("LoggingDirectoryPath") is string configuredPath)
+                        return configuredPath;
+                }
             }
+            #pragma warning restore PC001
 
             var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             return Path.Combine(appDataPath, "Fabrikam", "AssetManagement", "Logging");
